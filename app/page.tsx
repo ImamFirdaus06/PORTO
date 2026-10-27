@@ -12,7 +12,6 @@ import {
   Flame,
   PlusCircle,
   Trash2,
-  Image as ImageIcon,
   GraduationCap,
 } from "lucide-react";
 
@@ -54,7 +53,7 @@ export default function CreativePortfolio() {
             "Aplikasi Manajemen Inventaris lengkap dengan fitur CRUD, kalkulasi stok real-time, dan integrasi database MySQL.",
           tech: ["Spring Boot", "MySQL", "Java", "Tailwind"],
           link: "http://localhost:8080",
-          image: "/stockmaster-pro.png", // Mengarah langsung ke file gambar di folder public
+          image: "/stockmaster-pro.png", // Mengambil gambar langsung dari folder public
         },
       ];
       setProjects(initialProjects);
@@ -284,9 +283,8 @@ export default function CreativePortfolio() {
                 className="bg-zinc-900/50 border border-zinc-800/80 rounded-3xl p-6 hover:border-indigo-500/40 transition duration-300 flex flex-col justify-between group relative shadow-xl"
               >
                 <div>
-                  <div className="h-52 bg-zinc-950 rounded-2xl mb-6 border border-zinc-800/60 overflow-hidden relative flex flex-col items-center justify-center">
-                    <div className="absolute inset-0 bg-gradient-to-tr from-indigo-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition duration-500 z-10 pointer-events-none"></div>
-
+                  {/* Container Gambar Proyek */}
+                  <div className="h-52 bg-zinc-950 rounded-2xl mb-6 border border-zinc-800/60 overflow-hidden relative flex items-center justify-center">
                     {project.image ? (
                       <img
                         src={project.image}
@@ -294,11 +292,8 @@ export default function CreativePortfolio() {
                         className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
                       />
                     ) : (
-                      <div className="text-zinc-600 flex flex-col items-center gap-2">
-                        <ImageIcon size={28} />
-                        <span className="text-xs font-mono">
-                          [ Preview: {project.title} ]
-                        </span>
+                      <div className="text-zinc-500 text-xs font-mono">
+                        [ Tidak ada gambar ]
                       </div>
                     )}
                   </div>
@@ -387,11 +382,11 @@ export default function CreativePortfolio() {
 
                 <div>
                   <label className="block text-xs font-mono text-zinc-400 mb-1">
-                    URL Gambar / Path (Opsional)
+                    URL Gambar / Path
                   </label>
                   <input
                     type="text"
-                    placeholder="/stockmaster-pro.png atau link eksternal"
+                    placeholder="/stockmaster-pro.png"
                     value={newImage}
                     onChange={(e) => setNewImage(e.target.value)}
                     className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:border-indigo-500"
