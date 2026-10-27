@@ -38,24 +38,30 @@ export default function CreativePortfolio() {
   const [newLink, setNewLink] = useState("");
   const [newImage, setNewImage] = useState("");
 
-  // Load data proyek awal & localStorage
+  // Load data proyek dan paksa update gambar proyek utama
   useEffect(() => {
+    const initialProjects: Project[] = [
+      {
+        id: 1,
+        title: "StockMaster Pro (CRUD)",
+        category: "Fullstack • Spring Boot",
+        description:
+          "Aplikasi Manajemen Inventaris lengkap dengan fitur CRUD, kalkulasi stok real-time, dan integrasi database MySQL.",
+        tech: ["Spring Boot", "MySQL", "Java", "Tailwind"],
+        link: "http://localhost:8080",
+        image: "/stockmaster-pro.png", // Mengarahkan langsung ke gambar di folder public
+      },
+    ];
+
     const savedProjects = localStorage.getItem("portfolio_projects");
     if (savedProjects) {
-      setProjects(JSON.parse(savedProjects));
+      const parsed = JSON.parse(savedProjects);
+      // Memastikan proyek pertama selalu menggunakan gambar yang benar
+      if (parsed.length > 0) {
+        parsed[0].image = "/stockmaster-pro.png";
+      }
+      setProjects(parsed);
     } else {
-      const initialProjects: Project[] = [
-        {
-          id: 1,
-          title: "StockMaster Pro (CRUD)",
-          category: "Fullstack • Spring Boot",
-          description:
-            "Aplikasi Manajemen Inventaris lengkap dengan fitur CRUD, kalkulasi stok real-time, dan integrasi database MySQL.",
-          tech: ["Spring Boot", "MySQL", "Java", "Tailwind"],
-          link: "http://localhost:8080",
-          image: "/stockmaster-pro.png", // Mengambil gambar langsung dari folder public
-        },
-      ];
       setProjects(initialProjects);
       localStorage.setItem(
         "portfolio_projects",
@@ -83,7 +89,7 @@ export default function CreativePortfolio() {
         ? newTech.split(",").map((t) => t.trim())
         : ["Next.js", "Tailwind"],
       link: newLink || "#",
-      image: newImage,
+      image: newImage || "/stockmaster-pro.png",
     };
 
     const updated = [newProj, ...projects];
@@ -283,19 +289,13 @@ export default function CreativePortfolio() {
                 className="bg-zinc-900/50 border border-zinc-800/80 rounded-3xl p-6 hover:border-indigo-500/40 transition duration-300 flex flex-col justify-between group relative shadow-xl"
               >
                 <div>
-                  {/* Container Gambar Proyek */}
+                  {/* Container Gambar Proyek Asli */}
                   <div className="h-52 bg-zinc-950 rounded-2xl mb-6 border border-zinc-800/60 overflow-hidden relative flex items-center justify-center">
-                    {project.image ? (
-                      <img
-                        src={project.image}
-                        alt={project.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
-                      />
-                    ) : (
-                      <div className="text-zinc-500 text-xs font-mono">
-                        [ Tidak ada gambar ]
-                      </div>
-                    )}
+                    <img
+                      src={project.image}
+                      alt={project.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+                    />
                   </div>
 
                   <div className="flex justify-between items-start mb-2">
