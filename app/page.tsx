@@ -54,7 +54,7 @@ export default function CreativePortfolio() {
             "Aplikasi Manajemen Inventaris lengkap dengan fitur CRUD, kalkulasi stok real-time, dan integrasi database MySQL.",
           tech: ["Spring Boot", "MySQL", "Java", "Tailwind"],
           link: "http://localhost:8080",
-          image: "logo",
+          image: "/stockmaster-pro.png", // Mengarah langsung ke file gambar di folder public
         },
       ];
       setProjects(initialProjects);
@@ -284,44 +284,10 @@ export default function CreativePortfolio() {
                 className="bg-zinc-900/50 border border-zinc-800/80 rounded-3xl p-6 hover:border-indigo-500/40 transition duration-300 flex flex-col justify-between group relative shadow-xl"
               >
                 <div>
-                  <div className="h-52 bg-zinc-950 rounded-2xl mb-6 border border-zinc-800/60 overflow-hidden relative flex flex-col items-center justify-center gap-3">
-                    <div className="absolute inset-0 bg-gradient-to-tr from-indigo-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition duration-500"></div>
+                  <div className="h-52 bg-zinc-950 rounded-2xl mb-6 border border-zinc-800/60 overflow-hidden relative flex flex-col items-center justify-center">
+                    <div className="absolute inset-0 bg-gradient-to-tr from-indigo-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition duration-500 z-10 pointer-events-none"></div>
 
-                    {project.image === "logo" ? (
-                      <div className="flex flex-col items-center gap-3 z-10">
-                        <div className="w-16 h-16 rounded-2xl bg-indigo-600/20 border border-indigo-500/30 flex items-center justify-center shadow-lg shadow-indigo-500/10 group-hover:scale-110 transition duration-300">
-                          <svg
-                            className="w-10 h-10 text-indigo-400"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              d="M12 2L2 7L12 12L22 7L12 2Z"
-                              fill="currentColor"
-                              fillOpacity="0.8"
-                            />
-                            <path
-                              d="M2 17L12 22L22 17"
-                              stroke="currentColor"
-                              strokeWidth="2"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            />
-                            <path
-                              d="M2 12L12 17L22 12"
-                              stroke="currentColor"
-                              strokeWidth="2"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            />
-                          </svg>
-                        </div>
-                        <span className="text-xs font-mono text-zinc-400 tracking-wider font-medium">
-                          StockMaster Pro
-                        </span>
-                      </div>
-                    ) : project.image ? (
+                    {project.image ? (
                       <img
                         src={project.image}
                         alt={project.title}
@@ -421,11 +387,11 @@ export default function CreativePortfolio() {
 
                 <div>
                   <label className="block text-xs font-mono text-zinc-400 mb-1">
-                    URL Gambar / Logo (Opsional)
+                    URL Gambar / Path (Opsional)
                   </label>
                   <input
                     type="text"
-                    placeholder="Ketik 'logo' atau masukkan link gambar"
+                    placeholder="/stockmaster-pro.png atau link eksternal"
                     value={newImage}
                     onChange={(e) => setNewImage(e.target.value)}
                     className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:border-indigo-500"
@@ -515,7 +481,6 @@ export default function CreativePortfolio() {
             </a>
 
             <div className="flex items-center gap-2">
-              {/* Link GitHub Anda yang sudah diarahkan langsung ke profil */}
               <a
                 href="https://github.com/ImamFirdaus06"
                 target="_blank"
