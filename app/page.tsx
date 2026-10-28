@@ -13,6 +13,9 @@ import {
   PlusCircle,
   Trash2,
   GraduationCap,
+  LayoutDashboard,
+  Database,
+  Server,
 } from "lucide-react";
 
 interface Project {
@@ -22,7 +25,6 @@ interface Project {
   description: string;
   tech: string[];
   link: string;
-  image: string;
 }
 
 export default function CreativePortfolio() {
@@ -35,10 +37,9 @@ export default function CreativePortfolio() {
   const [newDesc, setNewDesc] = useState("");
   const [newTech, setNewTech] = useState("");
   const [newLink, setNewLink] = useState("");
-  const [newImage, setNewImage] = useState("");
 
   useEffect(() => {
-    // Set proyek utama dengan fallback visual preview yang elegan jika gambar lokal belum terbaca
+    // Proyek utama StockMaster Pro dengan desain kartu mockup dashboard profesional
     const initialProjects: Project[] = [
       {
         id: 1,
@@ -48,11 +49,10 @@ export default function CreativePortfolio() {
           "Web Manajemen Inventaris lengkap dengan fitur CRUD, kalkulasi stok real-time, dan integrasi database MySQL.",
         tech: ["Spring Boot", "MySQL", "Java", "Tailwind"],
         link: "http://localhost:8080",
-        image: "/stockmaster-pro.png",
       },
     ];
 
-    const savedProjects = localStorage.getItem("portfolio_projects");
+    const savedProjects = localStorage.getItem("portfolio_projects_v2");
     if (savedProjects) {
       try {
         const parsed = JSON.parse(savedProjects);
@@ -63,7 +63,7 @@ export default function CreativePortfolio() {
     } else {
       setProjects(initialProjects);
       localStorage.setItem(
-        "portfolio_projects",
+        "portfolio_projects_v2",
         JSON.stringify(initialProjects),
       );
     }
@@ -71,7 +71,7 @@ export default function CreativePortfolio() {
 
   const saveProjects = (updated: Project[]) => {
     setProjects(updated);
-    localStorage.setItem("portfolio_projects", JSON.stringify(updated));
+    localStorage.setItem("portfolio_projects_v2", JSON.stringify(updated));
   };
 
   const handleAddProject = (e: React.FormEvent) => {
@@ -87,7 +87,6 @@ export default function CreativePortfolio() {
         ? newTech.split(",").map((t) => t.trim())
         : ["Next.js", "Tailwind"],
       link: newLink || "#",
-      image: newImage || "/stockmaster-pro.png",
     };
 
     const updated = [newProj, ...projects];
@@ -98,7 +97,6 @@ export default function CreativePortfolio() {
     setNewDesc("");
     setNewTech("");
     setNewLink("");
-    setNewImage("");
     setShowAddModal(false);
   };
 
@@ -279,16 +277,55 @@ export default function CreativePortfolio() {
                 className="bg-zinc-900/50 border border-zinc-800/80 rounded-3xl p-6 hover:border-indigo-500/40 transition duration-300 flex flex-col justify-between group relative shadow-xl"
               >
                 <div>
-                  <div className="h-52 bg-zinc-950 rounded-2xl mb-6 border border-zinc-800/60 overflow-hidden relative flex items-center justify-center">
-                    <img
-                      src={project.image}
-                      alt="StockMaster Pro Preview"
-                      className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
-                      onError={(e) => {
-                        // Fallback pengaman jika gambar gagal dimuat agar kotak tidak rusak/memunculkan alt text
-                        (e.target as HTMLElement).style.display = "none";
-                      }}
-                    />
+                  {/* Mockup Dashboard Preview yang Elegan & Profesional */}
+                  <div className="h-52 bg-[#121216] rounded-2xl mb-6 border border-zinc-800/80 overflow-hidden relative p-4 flex flex-col justify-between group-hover:border-indigo-500/40 transition">
+                    <div className="absolute inset-0 bg-gradient-to-tr from-indigo-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition duration-500 pointer-events-none"></div>
+
+                    {/* Header Mockup */}
+                    <div className="flex justify-between items-center border-b border-zinc-800/80 pb-3">
+                      <div className="flex items-center gap-2">
+                        <div className="w-6 h-6 rounded-lg bg-indigo-600 flex items-center justify-center text-white shadow-sm">
+                          <Server size={14} />
+                        </div>
+                        <span className="text-xs font-bold text-zinc-200 tracking-wide">
+                          StockMaster Pro
+                        </span>
+                      </div>
+                      <span className="text-[10px] font-mono bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded-full border border-emerald-500/20">
+                        MySQL Active
+                      </span>
+                    </div>
+
+                    {/* Statistik Mini di Preview */}
+                    <div className="grid grid-cols-2 gap-2 my-2">
+                      <div className="bg-indigo-600/20 border border-indigo-500/30 rounded-xl p-2.5">
+                        <div className="text-[10px] text-zinc-400 flex items-center gap-1">
+                          <LayoutDashboard size={10} /> Jenis Produk
+                        </div>
+                        <div className="text-lg font-extrabold text-indigo-300 mt-0.5">
+                          1
+                        </div>
+                      </div>
+                      <div className="bg-emerald-600/20 border border-emerald-500/30 rounded-xl p-2.5">
+                        <div className="text-[10px] text-zinc-400 flex items-center gap-1">
+                          <Database size={10} /> Total Stok
+                        </div>
+                        <div className="text-lg font-extrabold text-emerald-300 mt-0.5">
+                          2 Unit
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Tabel Mini Preview */}
+                    <div className="bg-zinc-950/80 rounded-xl p-2 border border-zinc-900 text-[11px] text-zinc-300 flex justify-between items-center">
+                      <span className="font-mono text-zinc-400">#1 Laptop</span>
+                      <span className="text-emerald-400 font-semibold">
+                        Rp 10.000.000
+                      </span>
+                      <span className="bg-amber-500/10 text-amber-400 text-[9px] px-2 py-0.5 rounded">
+                        Menipis
+                      </span>
+                    </div>
                   </div>
 
                   <div className="flex justify-between items-start mb-2">
@@ -368,19 +405,6 @@ export default function CreativePortfolio() {
                     placeholder="Contoh: Fullstack • Next.js"
                     value={newCategory}
                     onChange={(e) => setNewCategory(e.target.value)}
-                    className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:border-indigo-500"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-xs font-mono text-zinc-400 mb-1">
-                    URL Gambar / Path
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="/stockmaster-pro.png"
-                    value={newImage}
-                    onChange={(e) => setNewImage(e.target.value)}
                     className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:border-indigo-500"
                   />
                 </div>
