@@ -30,7 +30,6 @@ export default function CreativePortfolio() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [showAddModal, setShowAddModal] = useState(false);
 
-  // Form State untuk menambah proyek baru
   const [newTitle, setNewTitle] = useState("");
   const [newCategory, setNewCategory] = useState("");
   const [newDesc, setNewDesc] = useState("");
@@ -38,29 +37,29 @@ export default function CreativePortfolio() {
   const [newLink, setNewLink] = useState("");
   const [newImage, setNewImage] = useState("");
 
-  // Load data proyek dan paksa update gambar proyek utama
   useEffect(() => {
+    // Set proyek utama dengan fallback visual preview yang elegan jika gambar lokal belum terbaca
     const initialProjects: Project[] = [
       {
         id: 1,
         title: "StockMaster Pro (CRUD)",
         category: "Fullstack • Spring Boot",
         description:
-          "Aplikasi Manajemen Inventaris lengkap dengan fitur CRUD, kalkulasi stok real-time, dan integrasi database MySQL.",
+          "Web Manajemen Inventaris lengkap dengan fitur CRUD, kalkulasi stok real-time, dan integrasi database MySQL.",
         tech: ["Spring Boot", "MySQL", "Java", "Tailwind"],
         link: "http://localhost:8080",
-        image: "/stockmaster-pro.png", // Mengarahkan langsung ke gambar di folder public
+        image: "/stockmaster-pro.png",
       },
     ];
 
     const savedProjects = localStorage.getItem("portfolio_projects");
     if (savedProjects) {
-      const parsed = JSON.parse(savedProjects);
-      // Memastikan proyek pertama selalu menggunakan gambar yang benar
-      if (parsed.length > 0) {
-        parsed[0].image = "/stockmaster-pro.png";
+      try {
+        const parsed = JSON.parse(savedProjects);
+        setProjects(parsed.length > 0 ? parsed : initialProjects);
+      } catch {
+        setProjects(initialProjects);
       }
-      setProjects(parsed);
     } else {
       setProjects(initialProjects);
       localStorage.setItem(
@@ -75,7 +74,6 @@ export default function CreativePortfolio() {
     localStorage.setItem("portfolio_projects", JSON.stringify(updated));
   };
 
-  // Handler Tambah Proyek
   const handleAddProject = (e: React.FormEvent) => {
     e.preventDefault();
     if (!newTitle.trim()) return;
@@ -95,7 +93,6 @@ export default function CreativePortfolio() {
     const updated = [newProj, ...projects];
     saveProjects(updated);
 
-    // Reset form & tutup modal
     setNewTitle("");
     setNewCategory("");
     setNewDesc("");
@@ -105,7 +102,6 @@ export default function CreativePortfolio() {
     setShowAddModal(false);
   };
 
-  // Handler Hapus Proyek
   const handleDeleteProject = (id: number) => {
     const updated = projects.filter((p) => p.id !== id);
     saveProjects(updated);
@@ -122,11 +118,9 @@ export default function CreativePortfolio() {
 
   return (
     <div className="bg-[#09090b] text-zinc-100 min-h-screen font-sans selection:bg-indigo-500 selection:text-white relative overflow-hidden">
-      {/* Background Ambient Glow Effects */}
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-indigo-600/15 rounded-full blur-[140px] pointer-events-none"></div>
       <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-purple-600/15 rounded-full blur-[140px] pointer-events-none"></div>
 
-      {/* Floating Header */}
       <header className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[90%] max-w-4xl bg-zinc-900/70 backdrop-blur-xl border border-zinc-800/80 rounded-full px-6 py-3 flex justify-between items-center shadow-2xl">
         <div className="flex items-center gap-2.5">
           <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-500 flex items-center justify-center font-bold text-sm shadow-md">
@@ -157,9 +151,7 @@ export default function CreativePortfolio() {
         </button>
       </header>
 
-      {/* Main Container */}
       <main className="max-w-5xl mx-auto px-6 pt-36 pb-20 relative z-10">
-        {/* Hero Section */}
         <section
           id="about"
           className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12"
@@ -211,7 +203,6 @@ export default function CreativePortfolio() {
           </div>
         </section>
 
-        {/* Tech Stack & Skills Bento */}
         <section
           id="skills"
           className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-16"
@@ -254,7 +245,6 @@ export default function CreativePortfolio() {
           </div>
         </section>
 
-        {/* Selected Projects */}
         <section id="projects" className="mb-20">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-8 gap-4">
             <div>
@@ -289,12 +279,15 @@ export default function CreativePortfolio() {
                 className="bg-zinc-900/50 border border-zinc-800/80 rounded-3xl p-6 hover:border-indigo-500/40 transition duration-300 flex flex-col justify-between group relative shadow-xl"
               >
                 <div>
-                  {/* Container Gambar Proyek Asli */}
                   <div className="h-52 bg-zinc-950 rounded-2xl mb-6 border border-zinc-800/60 overflow-hidden relative flex items-center justify-center">
                     <img
                       src={project.image}
-                      alt={project.title}
+                      alt="StockMaster Pro Preview"
                       className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+                      onError={(e) => {
+                        // Fallback pengaman jika gambar gagal dimuat agar kotak tidak rusak/memunculkan alt text
+                        (e.target as HTMLElement).style.display = "none";
+                      }}
                     />
                   </div>
 
@@ -344,7 +337,6 @@ export default function CreativePortfolio() {
           </div>
         </section>
 
-        {/* Modal Form Tambah Project */}
         {showAddModal && (
           <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
             <div className="bg-zinc-900 border border-zinc-800 rounded-3xl max-w-lg w-full p-6 sm:p-8 relative shadow-2xl">
@@ -452,7 +444,6 @@ export default function CreativePortfolio() {
           </div>
         )}
 
-        {/* Contact CTA Section */}
         <section
           id="contact"
           className="bg-gradient-to-r from-indigo-950/40 via-purple-950/30 to-zinc-900/60 border border-indigo-500/20 rounded-3xl p-8 sm:p-12 text-center relative overflow-hidden shadow-2xl"
@@ -516,7 +507,6 @@ export default function CreativePortfolio() {
         </section>
       </main>
 
-      {/* Footer */}
       <footer className="border-t border-zinc-900 py-8 text-center text-xs text-zinc-500 relative z-10 font-medium">
         <p>
           © 2026 Imam Firdaus Viar Prasetyo • Mahasiswa Teknologi Informasi UNY
