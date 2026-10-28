@@ -13,9 +13,10 @@ import {
   PlusCircle,
   Trash2,
   GraduationCap,
-  LayoutDashboard,
   Database,
-  Server,
+  Plus,
+  Edit,
+  Trash2 as TrashIcon,
 } from "lucide-react";
 
 interface Project {
@@ -39,7 +40,6 @@ export default function CreativePortfolio() {
   const [newLink, setNewLink] = useState("");
 
   useEffect(() => {
-    // Proyek utama StockMaster Pro dengan desain kartu mockup dashboard profesional
     const initialProjects: Project[] = [
       {
         id: 1,
@@ -52,7 +52,8 @@ export default function CreativePortfolio() {
       },
     ];
 
-    const savedProjects = localStorage.getItem("portfolio_projects_v2");
+    // Menggunakan key baru agar localStorage ter-refresh otomatis
+    const savedProjects = localStorage.getItem("portfolio_projects_v3");
     if (savedProjects) {
       try {
         const parsed = JSON.parse(savedProjects);
@@ -63,7 +64,7 @@ export default function CreativePortfolio() {
     } else {
       setProjects(initialProjects);
       localStorage.setItem(
-        "portfolio_projects_v2",
+        "portfolio_projects_v3",
         JSON.stringify(initialProjects),
       );
     }
@@ -71,7 +72,7 @@ export default function CreativePortfolio() {
 
   const saveProjects = (updated: Project[]) => {
     setProjects(updated);
-    localStorage.setItem("portfolio_projects_v2", JSON.stringify(updated));
+    localStorage.setItem("portfolio_projects_v3", JSON.stringify(updated));
   };
 
   const handleAddProject = (e: React.FormEvent) => {
@@ -116,9 +117,11 @@ export default function CreativePortfolio() {
 
   return (
     <div className="bg-[#09090b] text-zinc-100 min-h-screen font-sans selection:bg-indigo-500 selection:text-white relative overflow-hidden">
+      {/* Background Glow */}
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-indigo-600/15 rounded-full blur-[140px] pointer-events-none"></div>
       <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-purple-600/15 rounded-full blur-[140px] pointer-events-none"></div>
 
+      {/* Header */}
       <header className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[90%] max-w-4xl bg-zinc-900/70 backdrop-blur-xl border border-zinc-800/80 rounded-full px-6 py-3 flex justify-between items-center shadow-2xl">
         <div className="flex items-center gap-2.5">
           <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-500 flex items-center justify-center font-bold text-sm shadow-md">
@@ -149,7 +152,9 @@ export default function CreativePortfolio() {
         </button>
       </header>
 
+      {/* Main Container */}
       <main className="max-w-5xl mx-auto px-6 pt-36 pb-20 relative z-10">
+        {/* Hero Section */}
         <section
           id="about"
           className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12"
@@ -201,6 +206,7 @@ export default function CreativePortfolio() {
           </div>
         </section>
 
+        {/* Skills */}
         <section
           id="skills"
           className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-16"
@@ -243,6 +249,7 @@ export default function CreativePortfolio() {
           </div>
         </section>
 
+        {/* Projects Section */}
         <section id="projects" className="mb-20">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-8 gap-4">
             <div>
@@ -277,54 +284,68 @@ export default function CreativePortfolio() {
                 className="bg-zinc-900/50 border border-zinc-800/80 rounded-3xl p-6 hover:border-indigo-500/40 transition duration-300 flex flex-col justify-between group relative shadow-xl"
               >
                 <div>
-                  {/* Mockup Dashboard Preview yang Elegan & Profesional */}
-                  <div className="h-52 bg-[#121216] rounded-2xl mb-6 border border-zinc-800/80 overflow-hidden relative p-4 flex flex-col justify-between group-hover:border-indigo-500/40 transition">
-                    <div className="absolute inset-0 bg-gradient-to-tr from-indigo-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition duration-500 pointer-events-none"></div>
-
-                    {/* Header Mockup */}
-                    <div className="flex justify-between items-center border-b border-zinc-800/80 pb-3">
+                  {/* PREVIEW MINI DASHBOARD UI YANG SANGAT RAPI */}
+                  <div className="h-56 bg-gradient-to-b from-[#18181b] to-[#0f0f12] rounded-2xl mb-6 border border-zinc-800 p-4 overflow-hidden relative flex flex-col justify-between group-hover:border-indigo-500/40 transition shadow-inner">
+                    {/* Top Bar Mockup */}
+                    <div className="flex justify-between items-center bg-zinc-900/90 px-3 py-2 rounded-xl border border-zinc-800/80">
                       <div className="flex items-center gap-2">
-                        <div className="w-6 h-6 rounded-lg bg-indigo-600 flex items-center justify-center text-white shadow-sm">
-                          <Server size={14} />
+                        <div className="w-5 h-5 rounded-md bg-blue-600 flex items-center justify-center text-white">
+                          <Database size={11} />
                         </div>
-                        <span className="text-xs font-bold text-zinc-200 tracking-wide">
-                          StockMaster Pro
+                        <span className="text-xs font-bold text-zinc-200">
+                          StockMaster PRO
                         </span>
                       </div>
-                      <span className="text-[10px] font-mono bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded-full border border-emerald-500/20">
+                      <span className="text-[10px] font-mono bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded-md border border-emerald-500/20 flex items-center gap-1">
+                        <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-ping"></span>{" "}
                         MySQL Active
                       </span>
                     </div>
 
-                    {/* Statistik Mini di Preview */}
-                    <div className="grid grid-cols-2 gap-2 my-2">
-                      <div className="bg-indigo-600/20 border border-indigo-500/30 rounded-xl p-2.5">
-                        <div className="text-[10px] text-zinc-400 flex items-center gap-1">
-                          <LayoutDashboard size={10} /> Jenis Produk
+                    {/* Action & Stats Banner Mini */}
+                    <div className="flex justify-between items-center my-1 gap-2">
+                      <div className="bg-blue-600/20 border border-blue-500/30 rounded-xl p-2.5 flex-1">
+                        <div className="text-[10px] text-zinc-400">
+                          Total Jenis Produk
                         </div>
-                        <div className="text-lg font-extrabold text-indigo-300 mt-0.5">
-                          1
+                        <div className="text-base font-bold text-blue-300">
+                          1 Item
                         </div>
                       </div>
-                      <div className="bg-emerald-600/20 border border-emerald-500/30 rounded-xl p-2.5">
-                        <div className="text-[10px] text-zinc-400 flex items-center gap-1">
-                          <Database size={10} /> Total Stok
+                      <div className="bg-emerald-600/20 border border-emerald-500/30 rounded-xl p-2.5 flex-1">
+                        <div className="text-[10px] text-zinc-400">
+                          Stok Tersedia
                         </div>
-                        <div className="text-lg font-extrabold text-emerald-300 mt-0.5">
+                        <div className="text-base font-bold text-emerald-300">
                           2 Unit
                         </div>
                       </div>
+                      <div className="bg-blue-600 text-white rounded-xl px-3 py-2 flex items-center gap-1 text-[11px] font-semibold shadow-md">
+                        <Plus size={12} /> Tambah
+                      </div>
                     </div>
 
-                    {/* Tabel Mini Preview */}
-                    <div className="bg-zinc-950/80 rounded-xl p-2 border border-zinc-900 text-[11px] text-zinc-300 flex justify-between items-center">
-                      <span className="font-mono text-zinc-400">#1 Laptop</span>
-                      <span className="text-emerald-400 font-semibold">
-                        Rp 10.000.000
-                      </span>
-                      <span className="bg-amber-500/10 text-amber-400 text-[9px] px-2 py-0.5 rounded">
-                        Menipis
-                      </span>
+                    {/* Table Preview Mini */}
+                    <div className="bg-zinc-950/90 rounded-xl p-2.5 border border-zinc-900 text-[11px] space-y-1.5">
+                      <div className="flex justify-between text-zinc-500 text-[10px] border-b border-zinc-800/60 pb-1 font-mono">
+                        <span>NAMA PRODUK</span>
+                        <span>HARGA</span>
+                        <span>AKSI</span>
+                      </div>
+                      <div className="flex justify-between items-center text-zinc-200">
+                        <span className="font-medium">#1 Laptop</span>
+                        <span className="text-emerald-400 font-mono">
+                          Rp 10.000.000
+                        </span>
+                        <div className="flex gap-1">
+                          <span className="p-1 bg-amber-500/10 text-amber-400 rounded">
+                            <Edit size={10} />
+                          </span>
+                          <span className="p-1 bg-rose-500/10 text-rose-400 rounded">
+                            <TrashIcon size={10} />
+                          </span>
+                        </div>
+                      </div>
                     </div>
                   </div>
 
@@ -374,6 +395,7 @@ export default function CreativePortfolio() {
           </div>
         </section>
 
+        {/* Modal Tambah */}
         {showAddModal && (
           <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
             <div className="bg-zinc-900 border border-zinc-800 rounded-3xl max-w-lg w-full p-6 sm:p-8 relative shadow-2xl">
@@ -468,6 +490,7 @@ export default function CreativePortfolio() {
           </div>
         )}
 
+        {/* Contact */}
         <section
           id="contact"
           className="bg-gradient-to-r from-indigo-950/40 via-purple-950/30 to-zinc-900/60 border border-indigo-500/20 rounded-3xl p-8 sm:p-12 text-center relative overflow-hidden shadow-2xl"
